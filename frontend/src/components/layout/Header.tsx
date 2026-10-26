@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { API_BASE_URL } from '@/config/env';
 
 export const Header = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -28,7 +29,7 @@ export const Header = () => {
 
   useEffect(() => {
     // Fetch dynamic cities from backend
-    fetch('http://localhost:4000/api/v1/cities')
+    fetch(`${API_BASE_URL}/cities`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.data && Array.isArray(data.data) && data.data.length > 0) {

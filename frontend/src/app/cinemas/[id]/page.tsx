@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { MapPin, Phone, Monitor, Popcorn, Car, Volume2, Armchair, Sparkles, ChevronRight, Clock, Ticket } from 'lucide-react';
+import { API_BASE_URL } from '@/config/env';
 
 async function getCinema(id: string) {
   try {
-    const res = await fetch(`http://localhost:4000/api/v1/cinemas/${id}`, { next: { revalidate: 0 } });
+    const res = await fetch(`${API_BASE_URL}/cinemas/${id}`, { next: { revalidate: 0 } });
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error('Failed to fetch cinema');

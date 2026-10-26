@@ -3,9 +3,11 @@ import { BannerSlider } from '@/components/home/banner-slider';
 import { MovieCard } from '@/components/movie/MovieCard';
 import { Ticket, Compass, Sparkles, MapPin, ChevronRight, ShieldCheck } from 'lucide-react';
 
+import { API_BASE_URL } from '@/config/env';
+
 async function getHomeData() {
   try {
-    const res = await fetch('http://localhost:4000/api/v1/home', { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/home`, { cache: 'no-store' });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data;
@@ -25,7 +27,7 @@ export default async function Home() {
           Không thể kết nối đến máy chủ ClGV
         </h1>
         <p className="text-[#afa49b] text-sm max-w-md mx-auto">
-          Vui lòng kiểm tra lại dịch vụ Backend đang chạy trên cổng 4000 hoặc tải lại trang.
+          Vui lòng kiểm tra lại dịch vụ Backend đang chạy hoặc cấu hình NEXT_PUBLIC_API_URL.
         </p>
       </div>
     );

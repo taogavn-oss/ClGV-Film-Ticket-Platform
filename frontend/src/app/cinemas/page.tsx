@@ -1,9 +1,10 @@
 import { CinemasExplorer } from '@/components/cinema/CinemasExplorer';
 import { Sparkles } from 'lucide-react';
+import { API_BASE_URL } from '@/config/env';
 
 async function getCinemas() {
   try {
-    const res = await fetch('http://localhost:4000/api/v1/cinemas', { next: { revalidate: 60 } });
+    const res = await fetch(`${API_BASE_URL}/cinemas`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();
     return Array.isArray(json.data) ? json.data : [];

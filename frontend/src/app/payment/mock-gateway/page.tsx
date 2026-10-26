@@ -7,6 +7,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { ShieldCheck, Loader2, AlertCircle, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { API_BASE_URL } from '@/config/env';
 
 function MockGatewayContent() {
   const router = useRouter();
@@ -46,7 +47,7 @@ function MockGatewayContent() {
     try {
       // Call backend callback
       await axios.get(
-        `http://localhost:4000/api/v1/payments/vnpay/callback?vnp_ResponseCode=${responseCode}&vnp_TxnRef=${orderId}&vnp_Amount=${amount}`
+        `${API_BASE_URL}/payments/vnpay/callback?vnp_ResponseCode=${responseCode}&vnp_TxnRef=${orderId}&vnp_Amount=${amount}`
       );
       
       if (success) {

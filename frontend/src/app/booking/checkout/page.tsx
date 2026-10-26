@@ -20,6 +20,7 @@ import { useBookingStore } from '@/store/useBookingStore';
 import { useAuthStore } from '@/store/useAuthStore';
 import { QRCodeSVG } from 'qrcode.react';
 import { BookingProgressRail } from '@/components/booking/BookingProgressRail';
+import { API_BASE_URL } from '@/config/env';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -68,7 +69,7 @@ export default function CheckoutPage() {
     // 2. Actually left the page (closed tab or reloaded) - send beacon
     const handleUnload = () => {
       if (showtimeId && selectedSeats.length > 0 && accessToken) {
-        const url = 'http://localhost:4000/api/v1/bookings/release-seat';
+        const url = `${API_BASE_URL}/bookings/release-seat`;
         const body = JSON.stringify({ 
           showtimeId, 
           seatIds: selectedSeats.map(s => s.id) 
@@ -119,7 +120,7 @@ export default function CheckoutPage() {
     
     try {
       const res = await axios.post(
-        'http://localhost:4000/api/v1/bookings/checkout', 
+        `${API_BASE_URL}/bookings/checkout`, 
         {
           reservationId,
           showtimeId,
@@ -137,10 +138,10 @@ export default function CheckoutPage() {
         const { bookingId, paymentUrl } = res.data.data;
         
         if (paymentMethod === 'VNPAY') {
-          // Rewrite backend mock gateway URL to frontend mock gateway
+          // Rewrite backend mock gateway URL to frontend mock gateway dynamically
           const frontendPaymentUrl = paymentUrl.replace(
-            'http://localhost:4000/api/v1/payments/vnpay/mock-gateway',
-            'http://localhost:3000/payment/mock-gateway'
+            /https?:\/\/[^\/]+\/api\/v1\/payments\/vnpay\/mock-gateway/,
+            `${window.location.origin}/payment/mock-gateway`
           );
           window.location.href = frontendPaymentUrl;
         } else if (paymentMethod === 'VIETQR') {
@@ -479,7 +480,7 @@ export default function CheckoutPage() {
                 isConfirmedExitRef.current = true;
                 try {
                   await axios.post(
-                    'http://localhost:4000/api/v1/bookings/release-seat',
+                    `${API_BASE_URL}/bookings/release-seat`,
                     { 
                       showtimeId, 
                       seatIds: selectedSeats.map(s => s.id) 

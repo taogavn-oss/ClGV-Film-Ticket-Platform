@@ -1,9 +1,10 @@
 import { MoviesExplorer } from '@/components/movie/MoviesExplorer';
 import { Sparkles } from 'lucide-react';
+import { API_BASE_URL } from '@/config/env';
 
 async function getMovies(status: 'NOW_SHOWING' | 'COMING_SOON') {
   try {
-    const res = await fetch(`http://localhost:4000/api/v1/movies?status=${status}&limit=50`, {
+    const res = await fetch(`${API_BASE_URL}/movies?status=${status}&limit=50`, {
       next: { revalidate: 30 },
     });
     if (!res.ok) return [];

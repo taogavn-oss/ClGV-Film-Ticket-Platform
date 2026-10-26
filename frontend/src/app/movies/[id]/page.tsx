@@ -3,10 +3,11 @@ import { notFound } from 'next/navigation';
 import { Play, Clock, Calendar, Film, MapPin, Sparkles, AlertTriangle, Ticket, ChevronRight } from 'lucide-react';
 import { MovieShowtimesSelector } from '@/components/movie/MovieShowtimesSelector';
 import { MovieTrailerModal } from '@/components/movie/MovieTrailerModal';
+import { API_BASE_URL } from '@/config/env';
 
 async function getMovie(id: string) {
   try {
-    const res = await fetch(`http://localhost:4000/api/v1/movies/${id}`, { next: { revalidate: 0 } });
+    const res = await fetch(`${API_BASE_URL}/movies/${id}`, { next: { revalidate: 0 } });
     if (!res.ok) {
       if (res.status === 404) return null;
       throw new Error('Failed to fetch movie');

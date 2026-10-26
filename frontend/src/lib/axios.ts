@@ -15,9 +15,11 @@ declare module 'axios' {
   }
 }
 
+import { API_BASE_URL } from '@/config/env';
+
 // Base API instance
 export const api = axios.create({
-  baseURL: 'http://localhost:4000/api/v1',
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -56,7 +58,7 @@ api.interceptors.response.use(
           return Promise.reject(error);
         }
 
-        const res = await axios.post('http://localhost:4000/api/v1/auth/refresh', {
+        const res = await axios.post(`${API_BASE_URL}/auth/refresh`, {
           refreshToken,
         });
 
